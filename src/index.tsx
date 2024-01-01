@@ -24,6 +24,32 @@ const RnVideoThumbnails = RnVideoThumbnailsModule
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return RnVideoThumbnails.multiply(a, b);
+export type GetImageOptions = {
+  fileUri: string;
+  timeInMiliSecond: number;
+  quality?: number;
+  format?: 'jpeg' | 'png' | 'webp';
+};
+
+export type ImageResponse = {
+  uri: string;
+  height?: number;
+  width?: number;
+};
+export function getImageAsync(
+  options: GetImageOptions
+): Promise<ImageResponse> {
+  const defaultOptions = {
+    quality: 100,
+    format: 'jpeg',
+  };
+  const userOptions = {
+    ...defaultOptions,
+    ...options,
+  };
+  return RnVideoThumbnails.getImageAsync(userOptions);
+}
+
+export function flushCache(): Promise<string> {
+  return RnVideoThumbnails.flushCacheFiles();
 }
